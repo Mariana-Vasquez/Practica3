@@ -641,9 +641,12 @@ void Saldo(string cedula){
         }
         saldoint = Charaint(saldo);
         saldoint = saldoint - 1000;
-        cout << "Saldo: " << saldoint << endl;
+        if(saldoint < 0)
+            cout << "Saldo insuficiente. " << endl;
+        else
+            cout << "Saldo: " << saldoint << endl;
+        
         _sleep(3000);
-
         fin.close();                //Cierra el archivo de lectura.
 
     }
