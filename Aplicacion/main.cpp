@@ -59,8 +59,8 @@ int main()
             contraSudo = ToString(contraSudo);
 
             if (contraSudo.length() != contraAdmin.length()){
-                cout << "La contraseÃ±a es incorrecta" << endl;
-                    break;
+                cout << "La contrasena es incorrecta" << endl;
+                break;
             }
 
             else
@@ -109,7 +109,7 @@ int main()
 
         case 2:
 
-            cout << "Digite su numero de cedula.";
+            cout << "Digite su numero de cedula: ";
             cin >> Documento;
             Usuarios = Descodificar_metodo2(Usuarios,n);
             Usuarios = ToString(Usuarios);
@@ -174,7 +174,7 @@ string lectura2(){
 
 void escribir(string a){
     ofstream archivo;
-    string nombreArchivo;
+    //string nombreArchivo;
     archivo.open("Usuarios1.txt",ios::out);
     if(archivo.fail()){
         cout<<"No se pudo abrir el archivo";
@@ -294,7 +294,7 @@ void ingrUsuarios(string a){
         cin >> Clave;
         cout << "Saldo: ";
         cin >> Saldo;
-        total += "\n"+Cedula + ',' + Clave + ',' + Saldo + '.';
+        total += Cedula + ',' + Clave + ',' + Saldo + '.' + "\n";
         cout << "Ingresa 0 si ya terminaste o 1 si quiere ingresar otro usuario: ";
         cin >> term;
         system("cls");
@@ -321,19 +321,20 @@ bool Coincidencia(string cedula){
         while(fin.good()){              //lee caracter a caracter hasta el fin del archivo
             char temp=fin.get();
             if(fin.good()){
-                if (temp != ',' && con < 1){
+                if (temp != ',' and temp != 10 and temp != 32 && con < 1){
                     cedularch += temp;     //Asigna cada caracter leido a la cadena de caracteres
                 }
                 if(temp == ',') {
                     con += 1;
                 }
 
-                if (temp == ';') {
+                if (temp == '.') {
                     if (cedula == cedularch){
                         break;
                     }
                     con = 0;
-                    cedula = "";
+                    cedularch = "";
+
                 }
 
             }
@@ -408,16 +409,26 @@ string SegundoMetodo(unsigned int n,string cadena2)
 void menu( string cedula){
     unsigned short int num,num2;
     while (true) {
-        cout << "Si quiere consultar su saldo ingrese 1 "<< endl;
-        cout << "Si quiere retirar dinero ingrese 2"<< endl;
+
+        cout << "Si quiere consultar su saldo ingrese 1: "<< endl;
+        cout << "Si quiere retirar dinero ingrese 2: "<< endl;
+        cout << "Si quiere salir ingrese 3: " << endl;
         cin >> num;
+
         if (num == 1){
             Saldo(cedula);
         }
         if (num == 2){
             retirar(cedula);
         }
-        cout << "Si quiere repetir el menu ingrese 1";
+        if (num == 3)
+            break;
+
+
+        system("cls");
+
+        cout << "Si quiere repetir el menu ingrese 1: " << endl;
+        cout << "Si quiere salir precione cualquier numero diferente de 1: ";
         cin >> num2;
         if (num2 != 1){
             break;
@@ -434,6 +445,8 @@ string user(bool *tf){
     cin >> cedula;
     cout << "Clave: ";
     cin >> clave;
+
+    system("cls");
     try{
 
         fin.open("Usuarios1.txt");        //abre el archivo para lectura
@@ -444,11 +457,11 @@ string user(bool *tf){
         while(fin.good()){              //lee caracter a caracter hasta el fin del archivo
             char temp=fin.get();
             if(fin.good()){
-                if (temp != ',' && con < 2){
+                if (temp != ',' and temp != 10 and temp!= 32 && con < 2 && temp != 0){
                     if (con < 1 ){
                         cedularch += temp;     //Asigna cada caracter leido a la cadena de caracteres
                     }
-                    else {
+                    if(con >= 1 and con <2){
                         clavearch += temp;
                     }
                 }
@@ -461,8 +474,8 @@ string user(bool *tf){
                         return cedula;
                     }
                     con = 0;
-                    cedula = "";
-                    clavearch ="";
+                    cedularch = "";
+                    clavearch = "";
                 }
             }
         }
@@ -629,6 +642,8 @@ void Saldo(string cedula){
         saldoint = Charaint(saldo);
         saldoint = saldoint - 1000;
         cout << "Saldo: " << saldoint << endl;
+        _sleep(3000);
+
         fin.close();                //Cierra el archivo de lectura.
 
     }
